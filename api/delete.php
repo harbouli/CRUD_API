@@ -29,6 +29,7 @@ else :
     $statment->bindValue(':id', $id);
     $statment->execute();
     $returnData = msg(1, 200, 'User Has Been Deleted');
+    header('Location: http://localhost:3000');
 
 endif;
 echo json_encode($returnData);

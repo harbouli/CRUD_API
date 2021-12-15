@@ -34,6 +34,7 @@ $statemnt->bindValue(':id', $id);
 $statemnt->execute();
 $user = $statemnt->fetch(PDO::FETCH_ASSOC);
 
+$returnData = msg(1, 200, $user);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -63,3 +64,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statemnt->execute();
     endif;
 }
+echo json_encode($returnData);
