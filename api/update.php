@@ -25,8 +25,6 @@ $returnData = [];
 $id = $_GET['id'] ??  null;
 
 
-
-
 $statemnt = $connection->prepare('SELECT * FROM crud_tb WHERE id =:id');
 
 $statemnt->bindValue(':id', $id);
@@ -34,14 +32,13 @@ $statemnt->bindValue(':id', $id);
 $statemnt->execute();
 $user = $statemnt->fetch(PDO::FETCH_ASSOC);
 
-$returnData = msg(1, 200, $user);
+$returnData = msg(1, 200, $user,);
 
-
+$data = json_decode(file_get_contents("php://input"));
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $email = $_POST['email'];
-
+    $firstname = trim($data->firstname);
+    $lastname = trim($data->lastname);
+    $email = trim($data->email);
     if (empty($firstname)) :
         $erorrs[] = 'Please Enter Your Firstname';
 
@@ -53,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     elseif (empty($erorrs)) :
 
 
-        $statemnt = $pdo->prepare("UPDATE  crud_tb  SET firstname = :firstname , lastname = :lastname , email= :email WHERE id =:id");
+        $statemnt = $connection->prepare("UPDATE  crud_tb  SET firstname = :firstname , lastname = :lastname , email= :email WHERE id =:id");
 
 
         $statemnt->bindValue(':firstname', $firstname);
@@ -62,6 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statemnt->bindValue(':id', $id);
 
         $statemnt->execute();
+
+        $returnData = msg(1, 201, 'You have successfully ADD New User.');
     endif;
 }
 echo json_encode($returnData);

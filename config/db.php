@@ -13,7 +13,7 @@ class Database
         $this->hostname = "localhost";
         $this->dbname = "crud_db";
         $this->username = "root";
-        $this->password = "root";
+        $this->password = "";
 
         try {
             $conn = new PDO('mysql:host=' . $this->hostname . ';dbname=' . $this->dbname, $this->username, $this->password);
